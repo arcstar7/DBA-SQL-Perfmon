@@ -22,7 +22,7 @@ Before running the orchestrator, ensure the deployment environment meets the fol
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/arcstar7/DBA-SQL-Perfmon.git](https://github.com/arcstar7/DBA-SQL-Perfmon.git)
+git clone https://github.com/arcstar7/DBA-SQL-Perfmon.git
 cd DBA-SQL-Perfmon
 ```
 
