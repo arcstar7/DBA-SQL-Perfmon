@@ -1,4 +1,8 @@
-$WebhookUri = "https://your-tenant.webhook.office.com/webhookb2/..."
+param (
+    [string]$SqlInstance,
+    [string]$DbaDatabase,
+    [string]$WebhookUri
+)
 
 # Check Ola's log table for any jobs that failed in the last 24 hours
 $FailedJobsQuery = @"
@@ -17,4 +21,6 @@ if ($Failures) {
         }
         Invoke-RestMethod -Uri $WebhookUri -Method Post -Body ($Payload | ConvertTo-Json) -ContentType "application/json"
     }
+} else {
+    Write-Output "No failures detected in the CommandLog."
 }

@@ -1,7 +1,7 @@
 param (
-    [string]$SqlInstance = "localhost",
-    [string]$DbaDatabase = "master", # Or a dedicated Admin database
-    [string]$BackupLocation = "X:\SQLBackups"
+    [string]$SqlInstance,
+    [string]$DbaDatabase,
+    [string]$BackupLocation
 )
 
 # 1. Ensure dbatools is installed and loaded
@@ -21,3 +21,12 @@ Install-DbaMaintenanceSolution -SqlInstance $SqlInstance `
                                -ReplaceExisting
 
 Write-Output "Deployment Complete. SQL Agent Jobs have been created."
+
+# 3. Reschedule Ola's IndexOptimize job
+Write-Output "Adjusting IndexOptimize schedule for ERP workloads..."
+Set-DbaAgentJobSchedule -SqlInstance $SqlInstance `
+                        -Job "IndexOptimize - USER_DATABASES" `
+                        -Schedule "Weekly_Sunday_1AM" `
+                        -FrequencyType Weekly `
+                        -FrequencyInterval Sunday `
+                        -StartTime "010000"
